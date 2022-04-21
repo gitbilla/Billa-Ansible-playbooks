@@ -1,0 +1,9 @@
+---
+- name: collecting facts 
+  hosts: all
+  tasks:
+  - debug:
+     msg:
+      - "The OS distribution is {{ansible_distribution}}"
+      - "The os name is {{ansible_system}}"
+      - "The os Family is {{ansible_os_family}}"

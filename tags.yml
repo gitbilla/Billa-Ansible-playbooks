@@ -1,0 +1,32 @@
+---
+- hosts: ansiblenode1
+  gather_facts: false
+  tasks:
+  - debug:
+      msg: "This is the first task"
+    tags: 
+    - first
+    - common
+    - never
+  - debug:
+      msg: "This is the second task"
+    tags: 
+    - second
+    - common
+    - never
+  - debug:
+      msg: "This is the third task"
+    tags: 
+    - third
+    - never
+  
+  - debug:
+      msg: "This is the fourth task"
+    tags: 
+    - fourth
+    - never
+  - debug:
+      msg: "This is the fifth task"
+    tags: 
+    - fifth
+    - never

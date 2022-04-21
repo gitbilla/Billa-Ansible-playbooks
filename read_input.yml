@@ -1,0 +1,14 @@
+---
+- hosts: centos
+  gather_facts: false
+  vars:
+    x: 25
+  vars_prompt:  # to read a variable from the play
+    name: y
+    prompt: Enter the value of y
+    private: false  # this option makes the entry visible while typing
+  tasks:
+  - debug:
+      msg: 
+      - "The value of x is {{x}}"
+      - "The name is {{y}}"

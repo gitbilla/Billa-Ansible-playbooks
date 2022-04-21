@@ -1,0 +1,6 @@
+#!/root/virtualenv/bin/ansible-playbook
+- hosts: centos
+  become: yes
+  tasks:
+  - yum: name=wget state=present
+  - yum: name=which state=present

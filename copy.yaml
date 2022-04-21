@@ -1,0 +1,17 @@
+---
+
+- name: This is a simple playbook to copy
+  hosts: web
+  gather_facts: false
+  become: yes
+  tasks:
+  - name: task to copy the file
+    copy: src=web.xml dest=/tmp/web.xml
+  - name: task to create a file in the remote server
+    file: path=demo.txt state=touch
+    #become: yes
+  - name: install httpd
+    yum: name=httpd state=latest
+    #become: yes
+  - name: install which
+    yum: name=which state=present

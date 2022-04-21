@@ -1,0 +1,15 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: yes
+  tasks:
+  - block:
+    - name: installing nginx web server only on centos
+      yum:
+        name: nginx
+        state: present
+      when: ansible_os_family=="RedHat"
+      ignore_errors: yes
+    - debug:
+        msg: "Installed nginx on Redhat" 
+      when: ansible_os_family=="RedHat"

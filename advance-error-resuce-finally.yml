@@ -1,0 +1,14 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - block:
+    - name: find files in tomcat8
+      command: "ls /tomcat10"
+      register: tmcat_output
+    rescue:
+      - debug: 
+          msg: "The Path is incorrect or does not exists"
+    always:
+      - debug: 
+          msg: "This will always execute"

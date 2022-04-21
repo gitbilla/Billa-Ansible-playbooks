@@ -1,0 +1,15 @@
+---
+- hosts: ansiblenode1
+  gather_facts: no
+  tasks:
+  - block:
+    - command: "ls /home"
+      register: home_output1
+    - command: "ls /home1"
+      register: home_output2
+    - command: "ls /home3"
+      register: home_output3
+    ignore_errors: yes
+  - debug: var=home_output1
+  - debug: var=home_output2
+  - debug: var=home_output3

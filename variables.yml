@@ -1,0 +1,12 @@
+---
+- name: two methods to use variables
+  hosts: centos
+  gather_facts: false
+  tasks:
+  - name: method one - printing variable value using debug module
+    debug:
+      msg: "The hostname is : {{inventory_hostname}}"
+
+  - name: method two - using variables
+    debug:
+      var: inventory_hostname

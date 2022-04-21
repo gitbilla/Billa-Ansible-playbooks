@@ -1,0 +1,11 @@
+---
+- name: printing multiple lines of messages
+  hosts: centos
+  gather_facts: false
+  tasks:
+  - name: printing multiple lines
+    debug:
+      msg:
+      - "welcome"
+      - "Welcome to Ansible"
+      - "learning Anisble"

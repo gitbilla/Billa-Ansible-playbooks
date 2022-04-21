@@ -1,0 +1,7 @@
+---
+- hosts: centos
+  vars_files: 
+  - yamlFile.yml
+  - newjson.json
+  tasks:
+  - debug: var=r

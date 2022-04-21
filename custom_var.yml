@@ -1,0 +1,18 @@
+---
+- name: Custom variables
+  hosts: centos
+  gather_facts: false
+  vars:
+    x: 23
+    name: "Abraham Augustine"
+    my_boolean: false
+  tasks:
+  - name: display single  var value
+    debug: var=x
+
+  - name: display multiple var values
+    debug:
+      msg:
+      - "The Value of x is {{x}}"
+      - "Name is : {{name}}"
+      - The Value of my_bool is {{my_boolean}}"

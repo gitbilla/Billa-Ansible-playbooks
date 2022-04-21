@@ -1,0 +1,12 @@
+---
+- name: two ways to print messages
+  hosts: centos
+  gather_facts: false
+  become: yes
+ 
+  tasks:
+  - name: printing messages in first method
+    debug:
+      msg: "welcome to Learning Ansible Playbooks"
+  - name: printing messages in second method  
+    debug: msg="welcome to Learning Ansible Playbooks"

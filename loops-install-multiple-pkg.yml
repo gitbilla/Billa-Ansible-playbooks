@@ -1,0 +1,12 @@
+---
+- hosts: ansiblenode2
+  gather_facts: false
+  tasks:
+  - yum:
+     name: "{{item}}"
+     state: present
+    loop:
+    - httpd
+    - wget
+    - curl
+    - finger

@@ -1,0 +1,14 @@
+---
+- name: error handling
+  hosts: ansiblenode1
+  gather_facts: false
+  tasks:
+  - command: "ls /homeee/"
+    register: home_output # to capture the above command in a variable
+    ignore_errors: yes
+  - debug: var=home_output
+
+  - command: "ls /tmp"
+    register: tmp_output
+  - debug: var=tmp_output
+

@@ -1,0 +1,8 @@
+---
+- hosts: centos
+  gather_facts: false
+  tasks:
+  - name: install {{pkg}} package
+    yum: 
+      name: "{{pkg}}"
+      state: "{{req_state}}"

@@ -1,0 +1,16 @@
+---
+- name:
+  hosts: centos
+  gather_facts: false
+  tasks:
+  - shell: "bash --version"
+    register: bash_ver # to store the variable
+  - set_fact:  # purpose of set_facts is to create variables under tasks
+     bash_ver: "{{bash_ver.stdout.split('\n')[0].split()[3]}}"
+#  - debug: var=bash_ver # the output is lenght 
+#  - debug: var=bash_ver.stdout # this putput will only give stdout
+#  - debug: var=bash_ver.stdout.split("\n")[0]
+#  - debug: var=bash_ver.stdout.split("\n")[0].split()
+#  - debug: var=bash_ver.stdout.split("\n")[0].split()[3]
+  - debug: var=bash_ver
+

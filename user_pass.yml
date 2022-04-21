@@ -1,0 +1,15 @@
+---
+- hosts: centos
+#  gather_facts: false
+  vars_prompt:
+  - name: user_name
+    prompt: Enter user name
+    private: no
+  - name: password
+    prompt: Enter Password
+    private: yes
+  tasks:
+  - debug:
+      msg:
+      - "The user name is {{user_name}}"
+      - "The password is {{password}}"

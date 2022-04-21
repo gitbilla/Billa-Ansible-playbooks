@@ -1,0 +1,29 @@
+---
+- hosts: all
+  gather_facts: yes
+  tasks:
+  - block:
+    - name: installing httpd for RedHat Family
+      yum: 
+        name: httpd
+        state: latest
+    - name: Starting httpd for RedHat Family
+      yum: 
+        name: httpd
+        state: started
+    when: ansible_os_family=="RedHat"
+    become: yes
+  - block:
+    - name: installing httpd for Debain Family
+      yum:
+        name: apache2
+        state: latest
+    - name: Starting apache2 for Debain Family
+      yum:
+        name: apache2
+        state: started
+    when: ansible_os_family=="Debain"
+    become: yes
+  - debug:
+      msg: "Successfully completed"
+
