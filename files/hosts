@@ -1,0 +1,10 @@
+# remote copy
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+127.0.1.1 ansible.billa.com ansible
+192.168.56.15 ansible.billa.com ansible
+192.168.56.13 masterjenkins
+192.168.56.10 kubemaster
+192.168.56.11 workerNodeOne
+192.168.56.12 workerNodeTwo
+192.168.56.16 client1

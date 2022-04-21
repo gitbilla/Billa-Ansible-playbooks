@@ -1,0 +1,62 @@
+---
+- name: "playbook for creating users and establishinng connections"
+  hosts: client1
+  gather_facts: no
+  become: yes
+  vars:
+    users:
+    - jenkins
+    - cyrus
+  tasks:
+  - name: Copy a new sudoers file into place, after passing validation with visudo
+    copy:
+      src: /root/playbooks/files/sudoers
+      dest: /etc/sudoers
+  - name: Copy host files to the remote server
+    copy:
+       src: /root/playbooks/files/hosts
+       dest: /etc/hosts
+  - name: Copy dns enteries to resolve file
+    copy:
+       src: /root/playbooks/files/resolv.conf
+       dest: /etc/resolv.conf
+
+  - name: "Creating user accounts and add groups on remote server" 
+    user:
+      name: "{{ item }}"
+      #groups: "jenkins,docker-admins"
+    with_items: "{{ users }}"
+  #- name: "Automate adding ssh keys to user accounts"
+    #authorized_key:
+     # user: "{{ item }}"
+      #key: "{{ lookup('file', 'files/'+ item + '.key.pub') }}"
+    #with_items: "{{ users }}"
+  - name: "Allow admin users to sudo without a password"
+    lineinfile:
+      dest: "/etc/sudoers"
+      state: "present"
+      regexp: "^%wheel"
+      line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+- name: playbook to install packs on the remmote server
+  hosts: client1
+  gather_facts: no
+  become: yes
+  tasks:
+  - yum:
+      name: "{{ item }}"
+      state: present
+    loop:
+    - wget
+    - curl
+    - net-tools
+    - finger
+    - httpd 
+    notify:
+    - start httpd
+  - name: httpd.conf file
+    copy:
+      src: index.html 
+      dest: /var/www/html/index.html
+  handlers:
+  - name: start httpd
+    service: name=httpd state=started

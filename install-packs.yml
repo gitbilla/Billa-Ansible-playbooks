@@ -1,0 +1,32 @@
+---
+- name: printing multiple lines of messages
+  hosts: ansible
+  gather_facts: false
+  tasks:
+  - name: printing multiple lines
+    debug:
+      msg:
+      - "welcome"
+      - "Welcome to Ansible"
+      - "learning Anisble"
+
+- hosts: ansible
+  gather_facts: false
+  tasks:
+  - yum:
+     name: "{{item}}"
+     state: present
+    notify:
+    - start httpd
+    loop:
+    - wget
+    - httpd
+    - curl
+    - finger
+    - git
+  handlers:
+  - name: start httpd
+    service:
+      name: httpd
+      state: started
+

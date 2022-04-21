@@ -1,0 +1,17 @@
+---
+- hosts: ansible
+  gather_facts: false
+  become: yes
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: present
+     notify:
+      - start httpd
+  handlers:
+   - name: start httpd
+     service:
+       name: httpd
+       state: started
+
