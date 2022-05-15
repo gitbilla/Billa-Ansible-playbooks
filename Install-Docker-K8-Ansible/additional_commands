@@ -1,0 +1,5 @@
+# [root@newserver ~]# kubeadm init --pod-network-cidr 10.244.0.0/16 --apiserver-advertise-address=192.168.10.16 --ignore-preflight-errors=ALL
+
+# export KUBECONFIG=/etc/kubernetes/admin.conf
+
+# [root@newserver ~]# kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
