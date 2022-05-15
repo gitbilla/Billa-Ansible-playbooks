@@ -1,0 +1,19 @@
+---
+- name: system configuration for WORKERS
+  hosts: test
+  remote_user: root
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: no
+
+  tasks:
+  - name: Install kubelet kubeadm kubectl
+    shell: |
+           yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+  - name: Start and enable
+    service: 
+        name: kubelet
+        state: started 
+        enabled: yes
