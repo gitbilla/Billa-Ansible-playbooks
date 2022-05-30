@@ -1,0 +1,71 @@
+step 1 :
+ touch index.html
+ vi index.html
+ 
+ [root@kubernetes nginx-html]# vi index.html
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Sample HTML File</title>
+        <style type="text/css">
+                body {
+                        background-color: #37474f;
+                }
+                h1 b {
+                        font-color: #000000;
+                }
+        </style>
+</head>
+<body>
+        <h3 style="color: #ffffff">Check out my profiles below</h3>
+        <hr/>
+        <table>
+                <tr>
+                        <td>
+                                <a href="https://www.youtube.com/user/appletechenthusiast" target="_blank">
+                                <img src="https://www.freeiconspng.com/uploads/youtube-subscribe-red-png-8.png" style="width:84px;height:24px;" />
+                                </a>
+                        </td>
+                        <td>
+                                <a href="https://www.linkedin.com/in/augustine-abraham-78299376/" target="_blank">
+                                <img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" style="width:36px;height:24px;" />
+                                </a>
+                        </td>
+                        <td>
+                                <a href="https://github.com/gitbilla" target="_blank">
+                                <img src="https://i1.wp.com/linuxnewbieguide.org/wp-content/uploads/2017/03/github-logo.png" style="width:84px;height:24px;" />
+                                </a>
+                        </td>
+                </tr>
+        </table>
+</body>
+</html>
+
+step 2: # build the image
+docker run -d -p 8000:80 -v ~/nginx-html:/usr/share/nginx/html --name my-nginx nginx
+
+step 3 : To push the image with tasg to docker hub
+[root@kubernetes nginx-html]# docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: abramdocker
+Password:
+
+[root@kubernetes nginx-html]# docker tag nginx:latest abramdocker/custom-nginx:v1
+[root@kubernetes nginx-html]# docker images
+REPOSITORY                 TAG       IMAGE ID       CREATED        SIZE
+abramdocker/custom-nginx   v1        0e901e68141f   2 days ago     142MB
+nginx                      latest    0e901e68141f   2 days ago     142MB
+hello-world                latest    feb5d9fea6a5   8 months ago   13.3kB
+
+[root@kubernetes nginx-html]# docker push abramdocker/custom-nginx:v1
+The push refers to repository [docker.io/abramdocker/custom-nginx]
+33e3df466e11: Mounted from library/nginx
+747b7a567071: Mounted from library/nginx
+57d3fc88cb3f: Mounted from library/nginx
+
+[root@kubernetes nginx-html]# docker images
+REPOSITORY                 TAG       IMAGE ID       CREATED        SIZE
+abramdocker/custom-nginx   v1        0e901e68141f   2 days ago     142MB
+
+
+Step 4:  Login to Docker hub to verify the new image : custom-nginx:v1 
