@@ -1,0 +1,91 @@
+---
+- name: nginx installation
+  hosts: Jenkins
+  gather_facts: no
+  become: yes
+
+  tasks:
+  - name: add IP to remte host file
+    shell: |
+       echo "192.168.0.11 abramdevops.jenkins.com" >> /etc/hosts
+
+  - debug:
+       msg: Added Host name in the Remote Server
+  - name: Install yum
+    yum:
+       name:
+         - wget
+         - java-1.8.0-openjdk
+
+  - name: Download jenkins.repo
+    get_url:
+       url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+       dest: /etc/yum.repos.d/jenkins.repo
+
+  - name: Import Jenkins Key
+    shell: |
+      rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+      wget https://jenkins-ci.org/redhat/jenkins-ci.org.key --no-check-certificate
+
+  - name: Install Jenkins
+    yum:
+        name: jenkins
+        state: present
+
+  - name: Start & Enable Jenkins
+    systemd:
+        name: jenkins
+        state: started
+        enabled: true
+
+  - name: Sleep for 20 seconds and continue with play
+    wait_for: timeout=20
+
+  - name: Get init password Jenkins
+    shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+    changed_when: false
+    register: result
+
+  - name: Print init password Jenkins
+    debug:
+       var: result.stdout
+
+##########################  NGINX INSTALLATION  ##########################
+  - name: add epel repo
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Install nginx
+    yum:
+      name: nginx
+      state: latest
+
+  - name: Write the nginx config file
+    ansible.builtin.template:
+      src: /root/playbook/nginx-installation/jenkins.conf
+      dest: /etc/nginx/conf.d/jenkins.conf
+    notify:
+    - Restart nginx
+
+  - name: Ensure nginx is running
+    ansible.builtin.service:
+      name: nginx
+      state: started
+
+  - name: create files
+    file:
+      path: "{{ item }}"
+      state: touch
+      mode: 0755
+      owner: jenkins
+      group: jenkins
+    with_items:
+    - /var/log/nginx/jenkins.access.log
+    - /var/log/nginx/jenkins.error.log
+
+  handlers:
+    - name: Restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
