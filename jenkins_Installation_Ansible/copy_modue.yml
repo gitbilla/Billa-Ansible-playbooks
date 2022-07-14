@@ -1,0 +1,20 @@
+---
+- hosts: jenkins
+  become: false
+  gather_facts: no
+  tasks:
+  - name: Copy file with owner and permissions
+    copy:
+      src: /root/playbooks/ROLES/jenkins_nginx.conf
+      dest: /etc/nginx/conf.d/jenkins_nginx.conf
+
+  - name: Change file ownership, group and permissions
+    file:
+      path: "{{ item }}"
+      state: touch
+      owner: jenkins
+      group: jenkins
+      mode: '0644'
+    with_items:
+    - /var/log/nginx/jenkins.access.log
+    - /var/log/nginx/jenkins.error.log

@@ -1,0 +1,10 @@
+---
+- hosts: jenkins
+  become: true
+  gather_facts: no
+  tasks:
+    - name: copy file
+      copy: src=/home/jenkins/healthcheck.sh dest=/home/jenkins mode=0777
+
+    - name: Execute Script on remote servers docker
+      shell: /home/jenkins/healthcheck.sh > /tmp/output.txt

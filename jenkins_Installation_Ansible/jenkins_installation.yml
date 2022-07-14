@@ -1,0 +1,30 @@
+---
+- hosts: jenkins
+  gather_facts: false
+  tasks:
+  - name: Install epel-repo
+    yum:
+      name: epel-release
+      state: present
+  - yum:
+     name: "{{item}}"
+     state: present
+    loop:
+    - nginx 
+    - wget
+    - curl
+    - finger
+    - java-11-openjdk-devel
+    - jenkins
+
+  - name: Download jenkins repo
+    command: wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo --no-check-certificate
+
+  - name: import jenkins key
+    command: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+ 
+  - name: Start service jenkins, if not started
+    service:
+      name: jenkins
+      state: started
+    
