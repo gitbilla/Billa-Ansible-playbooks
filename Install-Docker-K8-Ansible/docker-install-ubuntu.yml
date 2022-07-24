@@ -1,0 +1,49 @@
+---
+ - name: Playbook to install dependencies for Docker
+   hosts: demo
+   become: true
+   vars:
+     pkgs:
+      - finger
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+      - curl
+   tasks:
+    - name: adding existing user 'jenkins' to group docker
+      user:
+        name: jenkins
+        groups: docker
+        append: yes
+
+    - name: Update repositories cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install pre-requisite packages
+      apt: name={{ pkgs }} state=present
+
+    - name: Fetch the *Ubuntu* GPG key for the docker repository
+      apt_key:
+        url: "https://download.docker.com/linux/ubuntu/gpg"
+        state: present
+    - name: Add the docker repository to apt
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+        state: present
+        update_cache: yes
+
+    - name: Install docker
+      ansible.builtin.apt:
+        name:
+          - docker
+          - docker.io
+          - docker-registry
+        state: latest
+        update_cache: true
+
+
+    - name: make sure docker is running
+      ansible.builtin.service:
+        name: docker
+        state: started
