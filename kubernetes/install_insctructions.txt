@@ -14,5 +14,14 @@ step 4 : vim calico.yaml
 4552               value: "192.168.0.0/16"
 
 
+kubeadm init
+
+
+vagrant@k8s-master:~$ mkdir -p $HOME/.kube
+vagrant@k8s-master:~$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+vagrant@k8s-master:~$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+vagrant@k8s-master:~$ kubectl apply -f calico.yaml
+
+
 step 5 : kubectl apply -f calico.yaml
 step 6: kubectl get pods -n kube-system
