@@ -1,4 +1,6 @@
 #!/bin/bash
+# https://admintuts.net/server-admin/automation/kubernetes-automated-bash-install-script/     :  Script for installation
+# https://clouddocs.f5.com/training/community/containers/html/appendix/appendix8/appendix8.html   :  calico
 echo "Disabling swap...."
 sudo swapoff -a
 sudo sed -i.bak '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
@@ -17,7 +19,7 @@ sudo rm -rf /var/lib/etcd
 sudo rm -rf /var/lib/docker
 sudo rm -rf /opt/containerd
 sudo apt autoremove -y
-  
+
 echo "Installing Docker...."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
@@ -48,24 +50,25 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 echo "Disabling Swap..."
 echo "Setting up Kubernetes Package Repository..."
-sudo apt-get install apt-transport-https curl -y 
-sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add 
+sudo apt-get install apt-transport-https curl -y
+sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 echo "Installing Kubernetes..."
-sudo apt install kubeadm
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+sudo apt install kubeadm -y
+echo " The below steps should be executed manually "
+echo "sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 sudo sleep 10
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
-echo "Installing Flannel..."
+echo Installing Flannel...
 sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-echo "Kubernetes Installation finished..."
-echo "Waiting 30 seconds for the cluster to go online..."
+echo Kubernetes Installation finished...
+echo Waiting 30 seconds for the cluster to go online...
 sudo sleep 30
 sudo export KUBECONFIG=$HOME/.kube/config
-echo "Testing Kubernetes namespaces... "
+echo Testing Kubernetes namespaces...
 kubectl get pods --all-namespaces
-echo "Testing Kubernetes nodes... "
+echo Testing Kubernetes nodes...
 kubectl get nodes
-echo "All ok ;)"
+echo All ok ;)"
