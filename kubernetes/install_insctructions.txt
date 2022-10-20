@@ -1,9 +1,9 @@
 ############################
 
 step 1 : run the script : install_k8.sh  #  run the flannel ntwork from the script
-step 2 : "rm /etc/containerd/config.toml
+step 2 :  rm /etc/containerd/config.toml
 	  systemctl restart containerd
-	  kubeadm init "
+	  sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --v=5 
 
 step 3 : Download Calico network
 curl https://docs.projectcalico.org/manifests/calico.yaml -O
