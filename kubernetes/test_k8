@@ -1,0 +1,35 @@
+root@kubernetes:~/.ssh# kubectl get nodes
+NAME          STATUS   ROLES    AGE   VERSION
+kubernetes    Ready    master   35m   v1.14.0
+workernode3   Ready    <none>   33s   v1.14.0
+
+root@kubernetes:~/.ssh# kubectl get pods -n kube-system
+
+root@kubernetes:~/.ssh# kubectl create deployment nginx --image=nginx
+deployment.apps/nginx created
+
+root@kubernetes:~/.ssh# kubectl get deployments
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   0/1     1            0           9s
+
+root@kubernetes:~/.ssh# kubectl describe deployment nginx
+Name:                   nginx
+Namespace:              default
+CreationTimestamp:      Fri, 21 Oct 2022 15:13:05 +0530
+Labels:                 app=nginx
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=nginx
+
+root@kubernetes:~/.ssh# kubectl get deployments
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   1/1     1            1           29s
+
+root@kubernetes:~/.ssh# kubectl create service nodeport nginx --tcp=80:80
+service/nginx created
+root@kubernetes:~/.ssh# kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP        41m
+nginx        NodePort    10.105.153.210   <none>        80:30579/TCP   7s
+
+root@kubernetes:~/.ssh# curl 192.168.238.22:30579  # not the master IP
+
