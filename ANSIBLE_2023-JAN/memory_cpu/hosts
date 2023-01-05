@@ -1,0 +1,6 @@
+[workers]
+workernode2
+
+[all]
+controller
+workernode2

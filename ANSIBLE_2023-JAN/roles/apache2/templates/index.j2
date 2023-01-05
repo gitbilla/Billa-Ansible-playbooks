@@ -1,0 +1,10 @@
+Welcome to Webserver on {{ ansible_facts['hostname'] }} and IP-ADD {{ ansible_facts.all_ipv4_addresses[1] }} {% raw %}{% endraw %}
+Details of Server
+
+hostname={{ ansible_facts['hostname'] }}
+fqdn={{ ansible_facts['fqdn'] }}
+ipv4={{ ansible_facts['all_ipv4_addresses'][1] }}
+distro={{ ansible_facts['distribution'] }}
+distro_version={{ ansible_facts['distribution_version'] }}
+totalmem={{ ansible_facts['memtotal_mb'] }}
+freemem={{ ansible_facts['memfree_mb'] }}

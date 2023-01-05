@@ -1,0 +1,8 @@
+---
+-
+ hosts: workers
+ gather_facts: False
+ tasks:
+         - name: Display Magic variables
+           debug:
+                   msg: "{{ vars }}"

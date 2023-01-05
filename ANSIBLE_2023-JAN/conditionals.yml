@@ -1,0 +1,16 @@
+---
+-
+ hosts: workers
+ gather_facts: yes
+ become: yes
+ name: playbook for conditions
+ tasks:
+         - name: Display hostname
+           debug: 
+                   msg: "{{ ansible_facts['fqdn'] }}"
+           when: ansible_facts['hostname'] == "workernode2"
+
+         - name: Display Family
+           debug:
+                   msg: "{{ ansible_facts['fqdn'] }}"
+           when: ansible_facts['os_family'] == "Debian" 

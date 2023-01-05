@@ -1,0 +1,21 @@
+---
+-
+ hosts: workers
+ gather_facts: False
+ become: True
+ tasks:
+         - name: Copy file to remote
+           ansible.builtin.copy:
+                   src: /home/devops/sample.txt
+                   dest: /tmp/
+                   owner: devops
+                   mode: '0644'
+
+         - name: Add the user 'james'
+           ansible.builtin.user:
+                   name: james
+                   comment: James Billa
+                   uid: 1055
+                   group: devops
+                   shell: /bin/bash
+                   append: yes

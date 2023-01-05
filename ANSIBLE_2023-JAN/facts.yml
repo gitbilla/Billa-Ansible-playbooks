@@ -1,0 +1,33 @@
+---
+- hosts: workernode2
+  gather_facts: true
+  tasks:
+          - name: Display facts vars
+            debug:
+                    msg: "{{ ansible_facts.all_ipv4_addresses[1] }}"
+
+          - name: Display node name
+            debug:
+                    msg: "{{ ansible_nodename }}"
+
+          - name: Display node name using python syntax
+            debug:
+                    msg: "{{ ansible_facts['nodename']}}"
+
+          - name: OS Family
+            debug: 
+                    msg: "{{ ansible_os_family }}"
+
+
+          - name: Display devices
+            debug:
+                    msg: "{{ ansible_devices['sda']['partitions']['sda1']['size']}}"  # or "{{ ansible_devices.sda.partitions.sda1.size }}"
+
+
+
+
+
+
+
+
+...

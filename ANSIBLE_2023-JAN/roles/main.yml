@@ -1,0 +1,8 @@
+---
+- 
+  hosts: workers
+  become: True
+  gather_facts: True
+  roles:
+          - apache2
+          - user

@@ -1,0 +1,16 @@
+---
+# tasks file for apache2
+          - name: install apache2
+            apt: name=apache2 update_cache=yes state=latest
+            when: ansible_facts['os_family'] == "Debian"
+
+          - name: enabled mod_rewrite
+            apache2_module: name=rewrite state=present
+            when: ansible_facts['os_family'] == "Debian"
+            notify:
+                    - restart apache2
+          - name: Deploying Template
+            template:
+                    src: index.j2
+                    dest: /var/www/html/index.html
+            notify: restart apache2

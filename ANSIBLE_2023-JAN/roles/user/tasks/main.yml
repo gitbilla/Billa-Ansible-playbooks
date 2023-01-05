@@ -1,0 +1,13 @@
+---
+# tasks file for user
+         - name: create user to remote
+           ansible.builtin.user:
+                   name: ansible
+                   comment: automation
+                   uid: 1051
+                   groups: admin, devops
+                   shell: /bin/bash
+                   append: yes
+                   generate_ssh_key: yes
+                   ssh_key_bits: 2048
+                   ssh_key_file: .ssh/id_rsa

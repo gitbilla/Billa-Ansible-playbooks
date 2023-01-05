@@ -1,0 +1,17 @@
+---
+-
+ hosts: workers
+ name: Jinja templates
+ gather_facts: True
+ tasks:
+         - name: Displaying facts default ouptut is jinja
+           debug:
+                   msg: "{{ ansible_facts }}"
+
+         - name: Displaying facts default ouptut yaml
+           debug:
+                   msg: "{{ ansible_facts| to_nice_yaml }}"
+
+
+...
+

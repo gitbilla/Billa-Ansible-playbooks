@@ -1,0 +1,11 @@
+---
+-
+ hosts: workers
+ become: True
+ gather_facts: True
+ tasks:
+         - name: Gather Facts
+           debug:
+                   #msg: "{{ ansible_facts['ansible_enp0s8']['ipv4'][0]}}
+                   #msg: "{{ ansible_facts.all_ipv4_addresses[1] }}"
+                   msg: "{{ ansible_facts['all_ipv4_addresses'][1]}}"

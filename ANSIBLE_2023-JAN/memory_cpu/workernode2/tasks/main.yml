@@ -1,0 +1,10 @@
+---
+# tasks file for workernode2
+         - name: Installing packages
+           apt:
+             name: "{{ item }}"
+             state: present
+           loop:
+                   - tree
+                   - finger
+           when: ansible_facts['hostname'] == "workernode2"
